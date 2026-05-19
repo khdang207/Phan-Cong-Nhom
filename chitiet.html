@@ -3,10 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Group 7 - Time Management Hub</title>
+    <title>SSA101 - Group 7 Presentation Tracker</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 
     <style>
         /* === NỀN & RESET === */
@@ -54,52 +57,40 @@
         .section-title { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
         .section-title h2 { font-size: 28px; font-weight: 800; }
         
-        /* Tiến độ tổng */
         .overall-progress { background: rgba(255,255,255,0.05); padding: 20px; border-radius: 20px; margin-bottom: 40px; border: 1px solid rgba(0,255,255,0.2); }
         .progress-header { display: flex; justify-content: space-between; margin-bottom: 10px; font-weight: 700; font-size: 14px; }
         .progress-bar-bg { background: rgba(255,255,255,0.1); height: 12px; border-radius: 10px; overflow: hidden; }
         .progress-bar-fill { background: linear-gradient(to right, #00ffff, #ff007a); height: 100%; width: 0%; transition: 1s ease-in-out; }
 
-        /* Bảng Task */
         .task-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px; }
-        .task-item { 
-            background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); 
-            padding: 25px; border-radius: 24px; transition: 0.3s;
-        }
+        .task-item { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); padding: 25px; border-radius: 24px; transition: 0.3s; }
         .task-item:hover { background: rgba(255,255,255,0.06); border-color: #ff007a; }
         .task-user { display: flex; align-items: center; gap: 15px; margin-bottom: 15px; }
         .task-user img { width: 45px; height: 45px; border-radius: 50%; border: 2px solid #00ffff; }
         .task-user h3 { font-size: 16px; font-weight: 800; }
         
         .task-list { list-style: none; }
-        .task-list li { 
-            display: flex; align-items: flex-start; gap: 10px; font-size: 13px; 
-            margin-bottom: 10px; opacity: 0.8; padding: 8px; border-radius: 10px; transition: 0.2s;
-        }
+        .task-list li { display: flex; align-items: flex-start; gap: 10px; font-size: 13px; margin-bottom: 10px; opacity: 0.8; padding: 8px; border-radius: 10px; transition: 0.2s; }
         .task-list li:hover { background: rgba(255,255,255,0.05); }
-        .task-list input[type="checkbox"] { 
-            width: 18px; height: 18px; accent-color: #ff007a; cursor: pointer; margin-top: 2px;
-        }
+        .task-list input[type="checkbox"] { width: 18px; height: 18px; accent-color: #ff007a; cursor: pointer; margin-top: 2px; }
         .task-list input[type="checkbox"]:checked + span { text-decoration: line-through; opacity: 0.5; color: #00ffff; }
 
         /* === FOOTER & BUTTONS === */
         .action-btns { text-align: center; padding: 40px 0 100px; display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; }
-        .btn { 
-            padding: 15px 35px; border-radius: 50px; text-decoration: none; font-weight: 800; font-size: 14px;
-            display: inline-flex; align-items: center; gap: 10px; transition: 0.3s; text-transform: uppercase;
-        }
+        .btn { padding: 15px 35px; border-radius: 50px; text-decoration: none; font-weight: 800; font-size: 14px; display: inline-flex; align-items: center; gap: 10px; transition: 0.3s; text-transform: uppercase; }
         .btn-canva { background: linear-gradient(135deg, #00C4CC, #7D2AE8); color: #fff; box-shadow: 0 10px 20px rgba(125,42,232,0.3); }
-        .btn-report { background: #ffffff; color: #05000a; }
-        .btn:hover { transform: translateY(-5px); box-shadow: 0 15px 30px rgba(255,255,255,0.1); }
+        .btn-report { background: rgba(255, 255, 255, 0.05); color: #ffffff; border: 2px solid rgba(255, 255, 255, 0.3); backdrop-filter: blur(10px); }
+        .btn-canva:hover { transform: translateY(-5px); box-shadow: 0 15px 35px rgba(125, 42, 232, 0.5); background: linear-gradient(135deg, #00D2D9, #8E3BFA); }
+        .btn-report:hover { transform: translateY(-5px); background: rgba(255, 255, 255, 0.15); border-color: #ffffff; }
 
-        /* === MOBILE RESPONSIVE === */
         @media (max-width: 768px) {
             .hero h1 { font-size: 32px; }
             header { padding: 15px; }
-            nav { display: none; } /* Ẩn nav trên mobile cho gọn */
+            nav { display: none; }
             .task-grid { grid-template-columns: 1fr; }
             .card { height: 380px; }
             .character-img { bottom: 230px; }
+            .btn-canva, .btn-report { width: 90%; justify-content: center; }
         }
     </style>
 </head>
@@ -110,76 +101,41 @@
         <nav>
             <a href="#tracker">Tracker</a>
             <a href="#tasks">Nhiệm Vụ Chi Tiết</a>
-            <a href="https://www.canva.com/" target="_blank">Canva</a>
+            <a href="https://canva.link/q45ki9cd2s8r8qp" target="_blank">Canva</a>
         </nav>
     </header>
 
     <main class="hero" id="tracker">
-        <h1>Management Tracker</h1>
-        <p>Project: Time Management Challenges (SSA101)</p>
+        <div class="tag" style="display: inline-flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 800; letter-spacing: 1px; margin-bottom: 20px;">
+            <i class="fa-solid fa-clock highlight" style="color: #ffd700;"></i>
+            <span class="highlight" id="countdown" style="color: #ffd700;"></span>
+
+            <script>
+            function updateCountdown() {
+                const deadline = new Date("2026-05-22T13:00:00").getTime();
+                const now = new Date().getTime();
+                const distance = deadline - now;
+
+                if (distance <= 0) {
+                    document.getElementById("countdown").innerHTML = "EXPIRED";
+                    return;
+                }
+
+                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+
+                document.getElementById("countdown").innerHTML =
+                    `DEADLINE: ${days} NGÀY ${hours} GIỜ CÒN LẠI`;
+            }
+            updateCountdown();
+            setInterval(updateCountdown, 1000);
+            </script>
+        </div>
+        <h1>Group 7 Assignment Tracker</h1>
+        <p>Time Management Presentation - For Subject SSA101</p>
     </main>
 
-    <div class="slider-container">
-        <div class="swiper mySwiper">
-            <div class="swiper-wrapper">
-                <div class="swiper-slide">
-                    <div class="card">
-                        <img src="https://play.nintendo.com/images/Masthead_Peach.17345b1513ac044897cfc243542899dce541e8dc.9afde10b.png" class="character-img">
-                        <div class="text-group">
-                            <h2>Yến Nhi</h2>
-                            <p><strong>Intro & Challenges</strong><br>Định nghĩa, tầm quan trọng & 3 thách thức lớn của sinh viên.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="swiper-slide">
-                    <div class="card">
-                        <img src="https://play.nintendo.com/images/Masthead_Toad.17345b1513ac044897cfc243542899dce541e8dc.9afde10b.png" class="character-img">
-                        <div class="text-group">
-                            <h2>Anh Minh</h2>
-                            <p><strong>Ưu Tiên & Lợi Ích</strong><br>Cách tập trung, giảm stress và cân bằng cuộc sống đại học.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="swiper-slide">
-                    <div class="card">
-                        <img src="https://play.nintendo.com/images/Masthead_Bowser.17345b1513ac044897cfc243542899dce541e8dc.9afde10b.png" class="character-img">
-                        <div class="text-group">
-                            <h2>Tấn Vinh</h2>
-                            <p><strong>Impact & Decision</strong><br>Đưa ra quyết định dựa trên mục tiêu & tác động tới nhóm.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="swiper-slide">
-                    <div class="card">
-                        <img src="https://play.nintendo.com/images/CS-25973-FriendPage-Masthead-Mario-3_v02.b19a16e5.ed4a1562.png" class="character-img">
-                        <div class="text-group">
-                            <h2>Khánh Đăng</h2>
-                            <p><strong>Eisenhower Matrix</strong><br>Phân loại nhiệm vụ theo Ma trận: Gấp vs Quan trọng.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="swiper-slide">
-                    <div class="card">
-                        <img src="https://play.nintendo.com/images/Masthead_yoshi.17345b1513ac044897cfc243542899dce541e8dc.9afde10b.png" class="character-img">
-                        <div class="text-group">
-                            <h2>Tuấn Kiệt</h2>
-                            <p><strong>Tips & Tools</strong><br>Sử dụng Planner, To-do list và chia nhỏ công việc.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="swiper-slide">
-                    <div class="card">
-                        <img src="https://play.nintendo.com/images/Masthead_Wario.17345b1513ac044897cfc243542899dce541e8dc.9afde10b.png" class="character-img">
-                        <div class="text-group">
-                            <h2>Nhật Tân</h2>
-                            <p><strong>Conclusion</strong><br>Tóm tắt các ý chính & Điều phối phần Q&A.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
+   
     <section class="task-section" id="tasks">
         <div class="overall-progress">
             <div class="progress-header">
@@ -193,7 +149,7 @@
 
         <div class="section-title">
             <h2>Nhiệm Vụ Chi Tiết</h2>
-            <p style="font-size: 12px; opacity: 0.5;">* Tích vào để cập nhật tiến độ</p>
+            <p style="font-size: 12px; opacity: 0.5; color: #00ffff;"><i class="fa-solid fa-cloud"></i> Đồng bộ Realtime với Nhóm</p>
         </div>
 
         <div class="task-grid">
@@ -203,9 +159,9 @@
                     <h3>Yến Nhi (Slide 2-4)</h3>
                 </div>
                 <ul class="task-list">
-                    <li><input type="checkbox" class="task-check"> <span>Định nghĩa Time Management</span></li>
-                    <li><input type="checkbox" class="task-check"> <span>Tầm quan trọng với sinh viên</span></li>
-                    <li><input type="checkbox" class="task-check"> <span>Nội dung 3 thách thức (Procrastination, Distractions, Jobs)</span></li>
+                    <li><input type="checkbox" class="task-check" id="task-nhi-1"> <span>Định nghĩa Time Management</span></li>
+                    <li><input type="checkbox" class="task-check" id="task-nhi-2"> <span>Tầm quan trọng với sinh viên</span></li>
+                    <li><input type="checkbox" class="task-check" id="task-nhi-3"> <span>Nội dung 3 thách thức (Procrastination, Distractions, Jobs)</span></li>
                 </ul>
             </div>
 
@@ -215,9 +171,9 @@
                     <h3>Anh Minh (Slide 5-6)</h3>
                 </div>
                 <ul class="task-list">
-                    <li><input type="checkbox" class="task-check"> <span>Cách thiết lập thứ tự ưu tiên</span></li>
-                    <li><input type="checkbox" class="task-check"> <span>Lợi ích: Giảm stress, tăng điểm số</span></li>
-                    <li><input type="checkbox" class="task-check"> <span>Lợi ích: Tránh trễ deadline</span></li>
+                    <li><input type="checkbox" class="task-check" id="task-minh-1"> <span>Cách thiết lập thứ tự ưu tiên</span></li>
+                    <li><input type="checkbox" class="task-check" id="task-minh-2"> <span>Lợi ích: Giảm stress, tăng điểm số</span></li>
+                    <li><input type="checkbox" class="task-check" id="task-minh-3"> <span>Lợi ích: Tránh trễ deadline</span></li>
                 </ul>
             </div>
 
@@ -227,9 +183,9 @@
                     <h3>Tấn Vinh (Slide 7-8)</h3>
                 </div>
                 <ul class="task-list">
-                    <li><input type="checkbox" class="task-check"> <span>Quyết định dựa trên mục tiêu</span></li>
-                    <li><input type="checkbox" class="task-check"> <span>Ví dụ so sánh: Học vs Chơi game</span></li>
-                    <li><input type="checkbox" class="task-check"> <span>Tác động tới làm việc nhóm</span></li>
+                    <li><input type="checkbox" class="task-check" id="task-vinh-1"> <span>Quyết định dựa trên mục tiêu</span></li>
+                    <li><input type="checkbox" class="task-check" id="task-vinh-2"> <span>Ví dụ so sánh: Học vs Chơi game</span></li>
+                    <li><input type="checkbox" class="task-check" id="task-vinh-3"> <span>Tác động tới làm việc nhóm</span></li>
                 </ul>
             </div>
 
@@ -239,9 +195,9 @@
                     <h3>Khánh Đăng (Slide 9-10)</h3>
                 </div>
                 <ul class="task-list">
-                    <li><input type="checkbox" class="task-check"> <span>Khái niệm Tính cấp bách (Urgency)</span></li>
-                    <li><input type="checkbox" class="task-check"> <span>Giải thích Ma trận Eisenhower</span></li>
-                    <li><input type="checkbox" class="task-check"> <span>Cách áp dụng Ma trận vào thực tế</span></li>
+                    <li><input type="checkbox" class="task-check" id="task-dang-1"> <span>Khái niệm Tính cấp bách (Urgency)</span></li>
+                    <li><input type="checkbox" class="task-check" id="task-dang-2"> <span>Giải thích Ma trận Eisenhower</span></li>
+                    <li><input type="checkbox" class="task-check" id="task-dang-3"> <span>Cách áp dụng Ma trận vào thực tế</span></li>
                 </ul>
             </div>
 
@@ -251,9 +207,9 @@
                     <h3>Tuấn Kiệt (Slide 11-12)</h3>
                 </div>
                 <ul class="task-list">
-                    <li><input type="checkbox" class="task-check"> <span>Hướng dẫn dùng Lịch/Planner</span></li>
-                    <li><input type="checkbox" class="task-check"> <span>Cách lập To-do list hiệu quả</span></li>
-                    <li><input type="checkbox" class="task-check"> <span>Kỹ thuật chia nhỏ đầu việc (Sub-tasks)</span></li>
+                    <li><input type="checkbox" class="task-check" id="task-kiet-1"> <span>Hướng dẫn dùng Lịch/Planner</span></li>
+                    <li><input type="checkbox" class="task-check" id="task-kiet-2"> <span>Cách lập To-do list hiệu quả</span></li>
+                    <li><input type="checkbox" class="task-check" id="task-kiet-3"> <span>Kỹ thuật chia nhỏ đầu việc (Sub-tasks)</span></li>
                 </ul>
             </div>
 
@@ -263,16 +219,16 @@
                     <h3>Nhật Tân (Slide 13-14)</h3>
                 </div>
                 <ul class="task-list">
-                    <li><input type="checkbox" class="task-check"> <span>Tổng kết 3 ý chính toàn bài</span></li>
-                    <li><input type="checkbox" class="task-check"> <span>Chuẩn bị slide Q&A</span></li>
-                    <li><input type="checkbox" class="task-check"> <span>Dự đoán các câu hỏi phản biện</span></li>
+                    <li><input type="checkbox" class="task-check" id="task-tan-1"> <span>Tổng kết 3 ý chính toàn bài</span></li>
+                    <li><input type="checkbox" class="task-check" id="task-tan-2"> <span>Chuẩn bị slide Q&A</span></li>
+                    <li><input type="checkbox" class="task-check" id="task-tan-3"> <span>Dự đoán các câu hỏi phản biện</span></li>
                 </ul>
             </div>
         </div>
     </section>
 
     <div class="action-btns">
-        <a href="https://www.canva.com/" target="_blank" class="btn btn-canva">
+        <a href="https://canva.link/q45ki9cd2s8r8qp" target="_blank" class="btn btn-canva">
             <i class="fa-solid fa-paintbrush"></i> Mở Canva Thiết Kế
         </a>
         <a href="javascript:void(0)" onclick="reportZalo()" class="btn btn-report">
@@ -289,11 +245,28 @@
             breakpoints: { 640: { slidesPerView: 2 }, 1024: { slidesPerView: 3 }, 1400: { slidesPerView: 4 } }
         });
 
-        // Xử lý Tiến độ (Progress)
+        // Đã thay thế Firebase Config của bạn vào đây
+        const firebaseConfig = {
+            apiKey: "AIzaSyD0wuzuYODpejHARBQFeAMFFFfHfMc0Q60",
+            authDomain: "ssa101group7-tracker.firebaseapp.com",
+            databaseURL: "https://ssa101group7-tracker-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "ssa101group7-tracker",
+            storageBucket: "ssa101group7-tracker.firebasestorage.app",
+            messagingSenderId: "379637766682",
+            appId: "1:379637766682:web:f52b2f44704a3ee6368fa3",
+            measurementId: "G-180XXJJG2S"
+        };
+
+        // Khởi tạo Firebase
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.database();
+        const tasksRef = db.ref('group7_tracker');
+
         const checks = document.querySelectorAll('.task-check');
         const fill = document.getElementById('progress-fill');
         const percentText = document.getElementById('progress-percent');
 
+        // Hàm tính toán %
         function updateProgress() {
             const total = checks.length;
             const completed = document.querySelectorAll('.task-check:checked').length;
@@ -303,11 +276,26 @@
             percentText.innerText = progress + '%';
         }
 
-        checks.forEach(check => {
-            check.addEventListener('change', updateProgress);
+        // 1. Nhận data realtime từ Firebase
+        tasksRef.on('value', (snapshot) => {
+            const data = snapshot.val() || {};
+            
+            checks.forEach(check => {
+                if (data[check.id] !== undefined) {
+                    check.checked = data[check.id];
+                }
+            });
+            updateProgress(); 
         });
 
-        // Giả lập gửi báo cáo
+        // 2. Gửi data lên Firebase khi có người click
+        checks.forEach(check => {
+            check.addEventListener('change', (e) => {
+                tasksRef.child(e.target.id).set(e.target.checked);
+            });
+        });
+
+        // Nút báo cáo
         function reportZalo() {
             const completed = document.querySelectorAll('.task-check:checked').length;
             const total = checks.length;
