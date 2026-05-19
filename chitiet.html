@@ -231,8 +231,8 @@
         <a href="https://canva.link/q45ki9cd2s8r8qp" target="_blank" class="btn btn-canva">
             <i class="fa-solid fa-paintbrush"></i> Mở Canva Thiết Kế
         </a>
-        <a href="javascript:void(0)" onclick="reportZalo()" class="btn btn-report">
-            <i class="fa-solid fa-paper-plane"></i> Báo Cáo Cho Nhóm
+        <a href="javascript:void(0)" onclick="reportTelegram()" class="btn btn-report">
+            <i class="fa-brands fa-telegram"></i> Báo Cáo Cho Leader
         </a>
     </div>
 
@@ -295,11 +295,57 @@
             });
         });
 
-        // Nút báo cáo
-        function reportZalo() {
+        // Nút báo cáo qua Telegram
+        function reportTelegram() {
+            // 1. Tính toán tiến độ
             const completed = document.querySelectorAll('.task-check:checked').length;
             const total = checks.length;
-            alert(`Đã sao chép báo cáo: Tiến độ hiện tại của Nhóm 7 là ${Math.round((completed/total)*100)}% (${completed}/${total} nhiệm vụ). Hãy gửi thông tin này vào nhóm Zalo!`);
+            const percent = Math.round((completed / total) * 100);
+            
+            // 2. Nội dung tin nhắn gửi đi
+            const message = `📊 BÁO CÁO TIẾN ĐỘ NHÓM 7 (SSA101)\n\n` +
+                            `✅ Hoàn thành: ${percent}% (${completed}/${total} nhiệm vụ)\n` +
+                            `⏰ Thời gian: ${new Date().toLocaleString('vi-VN')}\n\n` +
+                            `🚀 Các bạn tiếp tục đẩy nhanh tiến độ nhé!`;
+
+            // 3. CẤU HÌNH BOT TELEGRAM (Thay bằng thông tin của bạn)
+            const botToken = '8508397990:AAHTfkONs9D05Vu-BT-vVYP_Ly9oE1XfnQA';
+            const chatId = '8751888078';
+
+            // 4. Gửi yêu cầu đến API của Telegram
+            const url = `https://api.telegram.org/bot${botToken}/sendMessage`;
+            
+            // Hiển thị thông báo đang gửi...
+            const btn = document.querySelector('.btn-report');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Đang gửi...';
+
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    chat_id: chatId,
+                    text: message
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.ok) {
+                    alert('Đã gửi báo cáo thành công đến Bot Telegram của Đăng!');
+                } else {
+                    alert('Lỗi Telegram: ' + data.description);
+                }
+            })
+            .catch(error => {
+                console.error('Lỗi kết nối:', error);
+                alert('Không thể gửi báo cáo. Vui lòng kiểm tra mạng!');
+            })
+            .finally(() => {
+                // Trả lại trạng thái nút ban đầu
+                btn.innerHTML = originalText;
+            });
         }
     </script>
 </body>
