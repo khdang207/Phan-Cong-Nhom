@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Xplode - Group 7 Presentation Tracker</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
+    <style>
+        /* === RESET & NỀN=== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        body {
+            background-color: #05000a;
+            background-image: 
+                radial-gradient(circle at 20% 40%, rgba(138, 43, 226, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(255, 0, 122, 0.15) 0%, transparent 50%);
+            color: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+        }
+
+        /* === HEADER === */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 30px 5%;
+            width: 100%;
+        }
+        .brand { display: flex; align-items: center; gap: 10px; font-size: 24px; font-weight: 900; }
+        .brand i { color: #ff007a; font-size: 28px; }
+        nav { display: flex; gap: 40px; }
+        nav a { color: #fff; text-decoration: none; font-weight: 600; font-size: 15px; display: flex; align-items: center; gap: 8px; opacity: 0.8; transition: 0.3s; }
+        nav a:hover { opacity: 1; }
+        .user-controls { display: flex; align-items: center; gap: 20px; }
+        .search-box { background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 30px; padding: 10px 20px; display: flex; align-items: center; gap: 10px; width: 250px; }
+        .search-box input { background: transparent; border: none; color: white; outline: none; width: 100%; }
+        .icon-btn { background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); width: 45px; height: 45px; border-radius: 50%; display: flex; justify-content: center; align-items: center; position: relative; }
+        .icon-btn::after { content: ''; position: absolute; top: 12px; right: 14px; width: 6px; height: 6px; background: #ff007a; border-radius: 50%; }
+        .avatar { width: 45px; height: 45px; border-radius: 50%; object-fit: cover; border: 2px solid rgba(255, 255, 255, 0.2); }
+
+        /* === HERO SECTION === */
+        .hero { text-align: center; margin-top: 20px; padding: 0 20px; }
+        .tag { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 800; letter-spacing: 1px; margin-bottom: 20px; }
+        .tag .highlight { color: #ffd700; }
+        .hero h1 { font-size: 70px; font-weight: 900; line-height: 1.1; letter-spacing: -1px; margin-bottom: 20px; text-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .hero p { font-size: 15px; font-weight: 600; opacity: 0.7; max-width: 550px; margin: 0 auto; line-height: 1.6; }
+
+        /* === SLIDER WRAPPER === */
+        .slider-container {
+            width: 100%;
+            max-width: 100%;
+            margin: 0 auto;
+            padding: 120px 0 40px 0; 
+        }
+
+        .swiper {
+            width: 100%;
+            overflow: visible; 
+        }
+
+        /* === CARD GLASSMORPHISM === */
+        .card {
+            background: linear-gradient(180deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.02) 100%);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 30px;
+            height: 300px;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 25px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            border-color: rgba(255, 255, 255, 0.25);
+            box-shadow: 0 30px 50px rgba(138, 43, 226, 0.2);
+        }
+
+        .ring {
+            position: absolute;
+            bottom: 125px;
+            left: 50%;
+            transform: translateX(-50%) rotateX(75deg);
+            width: 160px;
+            height: 160px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .character-img {
+            position: absolute;
+            bottom: 180px; 
+            left: 50%;
+            transform: translateX(-50%);
+            width: 85%;
+            max-height: 230px;
+            object-fit: contain;
+            filter: drop-shadow(0 20px 20px rgba(0,0,0,0.5));
+            pointer-events: none;
+            transition: transform 0.3s ease-out;
+            
+            /* CSS Mờ chân */
+            -webkit-mask-image: linear-gradient(to bottom, black 0%, black 20%, transparent 100%);
+            mask-image: linear-gradient(to bottom, black 0%, black 50%, transparent 100%);
+            -webkit-mask-size: cover;
+            mask-size: cover;
+            -webkit-mask-repeat: no-repeat;
+            mask-repeat: no-repeat;
+        }
+
+        @keyframes gentleFloat {
+            0% { transform: translate(-50%, 0px); }
+            50% { transform: translate(-50%, -12px); }
+            100% { transform: translate(-50%, 0px); }
+        }
+
+        .card:hover .character-img {
+            animation: gentleFloat 2.5s ease-in-out infinite;
+        }
+
+        .card-info {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+        .text-group {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            padding-right: 10px;
+        }
+
+        .text-group h2 {
+            font-size: 20px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            color: #ffd700;
+        }
+
+        .text-group p {
+            font-size: 13px;
+            opacity: 0.85;
+            font-weight: 500;
+            line-height: 1.6;
+        }
+        
+        .text-group strong {
+            color: #fff;
+            font-weight: 800;
+        }
+
+        .rating { 
+            background: rgba(255, 255, 255, 0.08); 
+            padding: 6px 12px; 
+            border-radius: 12px; 
+            font-size: 13px; 
+            font-weight: 800; 
+            display: flex; 
+            align-items: center; 
+            gap: 5px; 
+            border: 1px solid rgba(255,255,255,0.1); 
+            white-space: nowrap;
+        }
+        .rating i { color: #00ffff; }
+
+        /* === CANVA BUTTON SECTION === */
+        .action-area {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 10px 0 80px 0;
+            width: 100%;
+        }
+
+        .btn-canva {
+            background: linear-gradient(135deg, #00C4CC, #7D2AE8);
+            color: #ffffff;
+            text-decoration: none;
+            padding: 16px 40px;
+            font-size: 16px;
+            font-weight: 800;
+            border-radius: 50px;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 10px 25px rgba(125, 42, 232, 0.3);
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-canva:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(125, 42, 232, 0.5);
+            background: linear-gradient(135deg, #00D2D9, #8E3BFA);
+        }
+
+        .btn-canva i {
+            font-size: 20px;
+        }
+
+        /* =========================================
+           === MOBILE RESPONSIVE (Dành riêng cho ĐT) ===
+           ========================================= */
+        @media (max-width: 768px) {
+            /* Fix Header */
+            header { 
+                flex-direction: column; 
+                gap: 15px; 
+                padding: 20px 15px; 
+            }
+            .user-controls { 
+                width: 100%; 
+                justify-content: center; 
+                flex-wrap: wrap; 
+            }
+            .search-box { 
+                width: auto; 
+                flex-grow: 1; 
+            }
+
+            /* Fix chữ khổng lồ ở phần Hero */
+            .hero h1 { 
+                font-size: 38px; 
+                margin-bottom: 12px; 
+            }
+            .hero p { 
+                font-size: 13px; 
+                padding: 0 10px; 
+            }
+
+            /* Fix Card Slider (Cách 2 bên lề và kéo dài ra để vừa chữ) */
+            .slider-container { 
+                padding: 80px 15px 40px 15px; 
+            }
+            .card { 
+                height: 380px; /* Tăng chiều cao để chữ trên mobile không bị tràn */
+                padding: 20px; 
+            }
+            
+            /* Đẩy Nhân vật + Vòng sáng lên cao hơn so với text */
+            .character-img { 
+                bottom: 240px; 
+                max-height: 190px;
+                width: 75%;
+            }
+            .ring { 
+                bottom: 190px; 
+                width: 140px; 
+                height: 140px; 
+            }
+
+            /* Thu nhỏ chữ trong Card một chút */
+            .text-group h2 { font-size: 18px; }
+            .text-group p { font-size: 12px; }
+            
+            /* Nút Canva thu nhỏ lại cho vừa tay */
+            .btn-canva {
+                font-size: 14px;
+                padding: 14px 28px;
+            }
+        }
+
+        /* Fix thêm cho các dòng điện thoại siêu nhỏ (iPhone SE...) */
+        @media (max-width: 400px) {
+            .hero h1 { font-size: 32px; }
+            .card { height: 420px; }
+            .character-img { bottom: 260px; max-height: 170px; }
+            .ring { bottom: 210px; width: 120px; height: 120px; }
+            .search-box { width: 100%; order: -1; margin-bottom: 10px; }
+        }
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="brand">
+            <i class="fa-solid fa-users-viewfinder"></i> GROUP 7
+        </div>
+        <nav>
+            <a href="#"><i class="fa-solid fa-house"></i> Home</a>
+            <a href="#"><i class="fa-solid fa-list-check"></i> Assignments</a>
+        </nav>
+        <div class="user-controls">
+            <div class="search-box">
+                <i class="fa-solid fa-search"></i>
+                <input type="text" placeholder="Search tasks...">
+            </div>
+            <div class="icon-btn">
+                <i class="fa-solid fa-bell"></i>
+            </div>
+            <img src="https://i.pravatar.cc/150?img=68" alt="User" class="avatar">
+        </div>
+    </header>
+
+    <main class="hero">
+        <div class="tag">
+            <i class="fa-solid fa-clock highlight"></i>
+            <span class="highlight" id="countdown"></span>
+
+<script>
+function updateCountdown() {
+    // Deadline: 13:00 ngày 22/05/2026
+    const deadline = new Date("2026-05-22T13:00:00").getTime();
+    const now = new Date().getTime();
+
+    const distance = deadline - now;
+
+    if (distance <= 0) {
+        document.getElementById("countdown").innerHTML = "EXPIRED";
+        return;
+    }
+
+    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    const hours = Math.floor(
+        (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+    );
+
+    document.getElementById("countdown").innerHTML =
+        `DEADLINE: ${days} NGÀY ${hours} GIỜ CÒN LẠI`;
+}
+
+updateCountdown();
+setInterval(updateCountdown, 1000);
+</script>
+        </div>
+        <h1>Group 7 Assignment Tracker<br></h1>
+        <p>Time Management Presentation - For Subject SSA101</p>
+    </main>
+
+    <div class="slider-container">
+        <div class="swiper mySwiper">
+            <div class="swiper-wrapper">
+                
+                <div class="swiper-slide">
+                    <div class="card">
+                        <div class="ring"></div>
+                        <img src="https://play.nintendo.com/images/Masthead_Peach.17345b1513ac044897cfc243542899dce541e8dc.9afde10b.png" alt="Peach" class="character-img">
+                        <div class="card-info">
+                            <div class="text-group">
+                                <h2>Lê Ngọc Yến Nhi</h2>
+                                <p>
+                                    <strong>Intro & Challenges</strong><br>
+                                    - What is time management?<br>
+                                    - Why is it important?<br>
+                                    - Face challenges: Procrastination, Distractions, Part-time jobs.
+                                </p>
+                            </div>
+                            <div class="rating"><i class="fa-solid fa-desktop"></i> Slide 2-4</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="swiper-slide">
+                    <div class="card">
+                        <div class="ring"></div>
+                        <img src="https://play.nintendo.com/images/Masthead_Toad.17345b1513ac044897cfc243542899dce541e8dc.9afde10b.png" alt="Toad" class="character-img">
+                        <div class="card-info">
+                            <div class="text-group">
+                                <h2>Lê Nguyễn Anh Minh</h2>
+                                <p>
+                                    <strong>Importance of Priorities</strong><br>
+                                    - Helps students focus.<br>
+                                    - Reduces stress & improves grades.<br>
+                                    - Prevents missed deadlines.<br>
+                                    - Creates work-life balance.
+                                </p>
+                            </div>
+                            <div class="rating"><i class="fa-solid fa-desktop"></i> Slide 5-6</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="swiper-slide">
+                    <div class="card">
+                        <div class="ring"></div>
+                        <img src="https://play.nintendo.com/images/Masthead_Bowser.17345b1513ac044897cfc243542899dce541e8dc.9afde10b.png" alt="Bowser" class="character-img">
+                        <div class="card-info">
+                            <div class="text-group">
+                                <h2>Khưu Tấn Vinh</h2>
+                                <p>
+                                    <strong>Importance & Impact</strong><br>
+                                    - Make decisions based on importance (goals).<br>
+                                    - E.g: Studying > gaming.<br>
+                                    - Understand impact on other activities & team members.
+                                </p>
+                            </div>
+                            <div class="rating"><i class="fa-solid fa-desktop"></i> Slide 7-8</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="swiper-slide">
+                    <div class="card">
+                        <div class="ring"></div>
+                        <img src="https://play.nintendo.com/images/CS-25973-FriendPage-Masthead-Mario-3_v02.b19a16e5.ed4a1562.png" alt="Mario" class="character-img">
+                        <div class="card-info">
+                            <div class="text-group">
+                                <h2>D. Huỳnh Khánh Đăng</h2>
+                                <p>
+                                    <strong>Urgency & Priority Matrix</strong><br>
+                                    - Decide based on urgency.<br>
+                                    - Focus on deadlines first.<br>
+                                    - Matrix: Important/Urgent, Urgent/Not Important, etc.
+                                </p>
+                            </div>
+                            <div class="rating"><i class="fa-solid fa-desktop"></i> Slide 9-10</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="swiper-slide">
+                    <div class="card">
+                        <div class="ring"></div>
+                        <img src="https://play.nintendo.com/images/Masthead_yoshi.17345b1513ac044897cfc243542899dce541e8dc.9afde10b.png" alt="Yoshi" class="character-img">
+                        <div class="card-info">
+                            <div class="text-group">
+                                <h2>Đào Tuấn Kiệt</h2>
+                                <p>
+                                    <strong>Better Time Management</strong><br>
+                                    - Use calendars/planners.<br>
+                                    - Make to-do lists.<br>
+                                    - Avoid distractions.<br>
+                                    - Break tasks into smaller steps.
+                                </p>
+                            </div>
+                            <div class="rating"><i class="fa-solid fa-desktop"></i> Slide 11-12</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="swiper-slide">
+                    <div class="card">
+                        <div class="ring"></div>
+                        <img src="https://play.nintendo.com/images/Masthead_Wario.17345b1513ac044897cfc243542899dce541e8dc.9afde10b.png" alt="Wario" class="character-img">
+                        <div class="card-info">
+                            <div class="text-group">
+                                <h2>Huỳnh Nhật Tân</h2>
+                                <p>
+                                    <strong>Conclusion & Q&A</strong><br>
+                                    - Summarize: Challenges, Priorities, Success.<br>
+                                    - Q&A Section:<br>
+                                    - "Do you have any questions?"
+                                </p>
+                            </div>
+                            <div class="rating"><i class="fa-solid fa-desktop"></i> Slide 13-14</div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="action-area">
+        <a href="https://www.canva.com/" target="_blank" class="btn-canva">
+            <i class="fa-solid fa-arrow-up-right-from-square"></i> OPEN PROJECT
+        </a>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+    <script>
+        const swiper = new Swiper(".mySwiper", {
+            slidesPerView: 1,         
+            spaceBetween: 30,        
+            loop: true,              
+            grabCursor: true,        
+            
+            autoplay: {
+                delay: 3000,                  
+                disableOnInteraction: false,  
+            },
+            
+            mousewheel: {
+                invert: false,                
+            },
+
+            breakpoints: {
+                640: {
+                    slidesPerView: 2,
+                },
+                1024: {
+                    slidesPerView: 3,        
+                },
+                1400: {
+                    slidesPerView: 4,        
+                }
+            }
+        });
+    </script>
+</body>
+</html>
