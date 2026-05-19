@@ -181,15 +181,18 @@
         }
         .rating i { color: #00ffff; }
 
-        /* === CANVA BUTTON SECTION === */
+        /* === BUTTON SECTION === */
         .action-area {
             display: flex;
             justify-content: center;
             align-items: center;
+            gap: 20px; /* Thêm gap để 2 nút cách nhau ra */
+            flex-wrap: wrap; /* Tự động xuống dòng nếu màn hình nhỏ */
             padding: 10px 0 80px 0;
             width: 100%;
         }
 
+        /* Nút Canva */
         .btn-canva {
             background: linear-gradient(135deg, #00C4CC, #7D2AE8);
             color: #ffffff;
@@ -206,14 +209,36 @@
             text-transform: uppercase;
             letter-spacing: 1px;
         }
-
         .btn-canva:hover {
             transform: translateY(-5px);
             box-shadow: 0 15px 35px rgba(125, 42, 232, 0.5);
             background: linear-gradient(135deg, #00D2D9, #8E3BFA);
         }
 
-        .btn-canva i {
+        /* Nút Chi tiết (Nền trắng, chữ đen) */
+        .btn-report {
+            background: #ffffff;
+            color: #05000a; 
+            text-decoration: none;
+            padding: 16px 40px;
+            font-size: 16px;
+            font-weight: 800;
+            border-radius: 50px;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 10px 25px rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .btn-report:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(255, 255, 255, 0.3);
+            background: #f0f0f0;
+        }
+
+        .action-area i {
             font-size: 20px;
         }
 
@@ -221,7 +246,6 @@
            === MOBILE RESPONSIVE (Dành riêng cho ĐT) ===
            ========================================= */
         @media (max-width: 768px) {
-            /* Fix Header */
             header { 
                 flex-direction: column; 
                 gap: 15px; 
@@ -237,49 +261,27 @@
                 flex-grow: 1; 
             }
 
-            /* Fix chữ khổng lồ ở phần Hero */
-            .hero h1 { 
-                font-size: 38px; 
-                margin-bottom: 12px; 
-            }
-            .hero p { 
-                font-size: 13px; 
-                padding: 0 10px; 
-            }
+            .hero h1 { font-size: 38px; margin-bottom: 12px; }
+            .hero p { font-size: 13px; padding: 0 10px; }
 
-            /* Fix Card Slider (Cách 2 bên lề và kéo dài ra để vừa chữ) */
-            .slider-container { 
-                padding: 80px 15px 40px 15px; 
-            }
-            .card { 
-                height: 380px; /* Tăng chiều cao để chữ trên mobile không bị tràn */
-                padding: 20px; 
-            }
+            .slider-container { padding: 80px 15px 40px 15px; }
+            .card { height: 380px; padding: 20px; }
             
-            /* Đẩy Nhân vật + Vòng sáng lên cao hơn so với text */
-            .character-img { 
-                bottom: 240px; 
-                max-height: 190px;
-                width: 75%;
-            }
-            .ring { 
-                bottom: 190px; 
-                width: 140px; 
-                height: 140px; 
-            }
+            .character-img { bottom: 240px; max-height: 190px; width: 75%; }
+            .ring { bottom: 190px; width: 140px; height: 140px; }
 
-            /* Thu nhỏ chữ trong Card một chút */
             .text-group h2 { font-size: 18px; }
             .text-group p { font-size: 12px; }
             
-            /* Nút Canva thu nhỏ lại cho vừa tay */
-            .btn-canva {
+            /* Thu nhỏ 2 nút trên mobile */
+            .btn-canva, .btn-report {
                 font-size: 14px;
                 padding: 14px 28px;
+                width: 90%;
+                justify-content: center;
             }
         }
 
-        /* Fix thêm cho các dòng điện thoại siêu nhỏ (iPhone SE...) */
         @media (max-width: 400px) {
             .hero h1 { font-size: 32px; }
             .card { height: 420px; }
@@ -331,9 +333,7 @@ function updateCountdown() {
     }
 
     const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-    const hours = Math.floor(
-        (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
-    );
+    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
 
     document.getElementById("countdown").innerHTML =
         `DEADLINE: ${days} NGÀY ${hours} GIỜ CÒN LẠI`;
@@ -475,8 +475,8 @@ setInterval(updateCountdown, 1000);
         <a href="https://canva.link/q45ki9cd2s8r8qp" target="_blank" class="btn-canva">
             <i class="fa-solid fa-arrow-up-right-from-square"></i> OPEN PROJECT
         </a>
-        <a href="/chitiet.html" class="btn btn-report">
-            <i class="fa-solid fa-arrow-up-right-from-square"></i> CHI TIẾT PHÂN CÔNG
+        <a href="/chitiet.html" class="btn-report">
+            <i class="fa-solid fa-list-check"></i> CHI TIẾT PHÂN CÔNG
         </a>
     </div>
 
