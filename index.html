@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SSA101 - Group 7 Presentation Tracker</title>
+    <title>Career Compass - Phân Công Nhóm</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
@@ -45,7 +45,8 @@
         .user-controls { display: flex; align-items: center; gap: 20px; }
         .search-box { background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 30px; padding: 10px 20px; display: flex; align-items: center; gap: 10px; width: 250px; }
         .search-box input { background: transparent; border: none; color: white; outline: none; width: 100%; }
-        .icon-btn { background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); width: 45px; height: 45px; border-radius: 50%; display: flex; justify-content: center; align-items: center; position: relative; }
+        .icon-btn { background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); width: 45px; height: 45px; border-radius: 50%; display: flex; justify-content: center; align-items: center; position: relative; cursor: pointer; transition: 0.3s; }
+        .icon-btn:hover { background: rgba(255, 255, 255, 0.1); }
         .icon-btn::after { content: ''; position: absolute; top: 12px; right: 14px; width: 6px; height: 6px; background: #ff007a; border-radius: 50%; }
         .avatar { width: 45px; height: 45px; border-radius: 50%; object-fit: cover; border: 2px solid rgba(255, 255, 255, 0.2); }
 
@@ -186,8 +187,8 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 20px; /* Thêm gap để 2 nút cách nhau ra */
-            flex-wrap: wrap; /* Tự động xuống dòng nếu màn hình nhỏ */
+            gap: 20px;
+            flex-wrap: wrap;
             padding: 10px 0 80px 0;
             width: 100%;
         }
@@ -215,7 +216,7 @@
             background: linear-gradient(135deg, #00D2D9, #8E3BFA);
         }
 
-        /* Nút Chi tiết (Nền trắng, chữ đen) */
+        /* Nút Chi tiết */
         .btn-report {
             background: #ffffff;
             color: #05000a; 
@@ -243,7 +244,7 @@
         }
 
         /* =========================================
-           === MOBILE RESPONSIVE (Dành riêng cho ĐT) ===
+           === MOBILE RESPONSIVE ===
            ========================================= */
         @media (max-width: 768px) {
             header { 
@@ -273,7 +274,6 @@
             .text-group h2 { font-size: 18px; }
             .text-group p { font-size: 12px; }
             
-            /* Thu nhỏ 2 nút trên mobile */
             .btn-canva, .btn-report {
                 font-size: 14px;
                 padding: 14px 28px;
@@ -296,7 +296,7 @@
 
     <header>
         <div class="brand">
-            <i class="fa-solid fa-users-viewfinder"></i> GROUP 7
+            <i class="fa-solid fa-compass"></i> CAREER COMPASS
         </div>
         <nav>
             <a href="#"><i class="fa-solid fa-house"></i> Home</a>
@@ -317,152 +317,138 @@
     <main class="hero">
         <div class="tag">
             <i class="fa-solid fa-clock highlight"></i>
-            <span class="highlight" id="countdown"></span>
-
-<script>
-function updateCountdown() {
-    // Deadline: 13:00 ngày 22/05/2026
-    const deadline = new Date("2026-05-22T13:00:00").getTime();
-    const now = new Date().getTime();
-
-    const distance = deadline - now;
-
-    if (distance <= 0) {
-        document.getElementById("countdown").innerHTML = "EXPIRED";
-        return;
-    }
-
-    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-
-    document.getElementById("countdown").innerHTML =
-        `DEADLINE: ${days} NGÀY ${hours} GIỜ CÒN LẠI`;
-}
-
-updateCountdown();
-setInterval(updateCountdown, 1000);
-</script>
+            <span class="highlight">PHÂN CÔNG NHÓM CAREER COMPASS</span>
         </div>
-        <h1>Group 7 Assignment Tracker<br></h1>
-        <p>Time Management Presentation - For Subject SSA101</p>
+        <h1>Career Compass<br>Định Hướng Nghề Nghiệp</h1>
+        <p>Giúp sinh viên hiểu bản thân & chọn ngành phù hợp</p>
     </main>
 
     <div class="slider-container">
         <div class="swiper mySwiper">
             <div class="swiper-wrapper">
                 
+                <!-- Thành viên 1: Leader -->
                 <div class="swiper-slide">
                     <div class="card">
                         <div class="ring"></div>
-                        <img src="https://play.nintendo.com/images/Masthead_Peach.17345b1513ac044897cfc243542899dce541e8dc.9afde10b.png" alt="Peach" class="character-img">
-                        <div class="card-info">
-                            <div class="text-group">
-                                <h2>Lê Ngọc Yến Nhi</h2>
-                                <p>
-                                    <strong>Intro & Challenges</strong><br>
-                                    - What is time management?<br>
-                                    - Why is it important?<br>
-                                    - Face challenges: Procrastination, Distractions, Part-time jobs.
-                                </p>
-                            </div>
-                            <div class="rating"><i class="fa-solid fa-desktop"></i> Slide 3-4</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="swiper-slide">
-                    <div class="card">
-                        <div class="ring"></div>
-                        <img src="https://play.nintendo.com/images/Masthead_Toad.17345b1513ac044897cfc243542899dce541e8dc.9afde10b.png" alt="Toad" class="character-img">
-                        <div class="card-info">
-                            <div class="text-group">
-                                <h2>Lê Nguyễn Anh Minh</h2>
-                                <p>
-                                    <strong>Importance of Priorities</strong><br>
-                                    - Helps students focus.<br>
-                                    - Reduces stress & improves grades.<br>
-                                    - Prevents missed deadlines.<br>
-                                    - Creates work-life balance.
-                                </p>
-                            </div>
-                            <div class="rating"><i class="fa-solid fa-desktop"></i> Slide 5-6</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="swiper-slide">
-                    <div class="card">
-                        <div class="ring"></div>
-                        <img src="https://play.nintendo.com/images/Masthead_Bowser.17345b1513ac044897cfc243542899dce541e8dc.9afde10b.png" alt="Bowser" class="character-img">
-                        <div class="card-info">
-                            <div class="text-group">
-                                <h2>Khưu Tấn Vinh</h2>
-                                <p>
-                                    <strong>Importance & Impact</strong><br>
-                                    - Make decisions based on importance (goals).<br>
-                                    - E.g: Studying > gaming.<br>
-                                    - Understand impact on other activities & team members.
-                                </p>
-                            </div>
-                            <div class="rating"><i class="fa-solid fa-desktop"></i> Slide 7-8</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="swiper-slide">
-                    <div class="card">
-                        <div class="ring"></div>
-                        <img src="https://play.nintendo.com/images/CS-25973-FriendPage-Masthead-Mario-3_v02.b19a16e5.ed4a1562.png" alt="Mario" class="character-img">
+                        <img src="https://play.nintendo.com/images/CS-25973-FriendPage-Masthead-Mario-3_v02.b19a16e5.ed4a1562.png" alt="Leader" class="character-img">
                         <div class="card-info">
                             <div class="text-group">
                                 <h2>D. Huỳnh Khánh Đăng</h2>
                                 <p>
-                                    <strong>Urgency & Priority Matrix</strong><br>
-                                    - Decide based on urgency.<br>
-                                    - Focus on deadlines first.<br>
-                                    - Matrix: Important/Urgent, Urgent/Not Important, etc.
+                                    <strong>🎯 Leader & Coordinator</strong><br>
+                                    ✓ Điều phối toàn bộ dự án<br>
+                                    ✓ Thiết kế Google Form khảo sát<br>
+                                    ✓ Thu thập & phát phát dữ liệu<br>
+                                    ✓ Quản lý timeline & báo cáo tiến độ
                                 </p>
                             </div>
-                            <div class="rating"><i class="fa-solid fa-desktop"></i> Slide 9-10</div>
+                            <div class="rating"><i class="fa-solid fa-star"></i> Leader</div>
                         </div>
                     </div>
                 </div>
 
+                <!-- Thành viên 2: Phân tích dữ liệu -->
                 <div class="swiper-slide">
                     <div class="card">
                         <div class="ring"></div>
-                        <img src="https://play.nintendo.com/images/Masthead_yoshi.17345b1513ac044897cfc243542899dce541e8dc.9afde10b.png" alt="Yoshi" class="character-img">
+                        <img src="https://play.nintendo.com/images/Masthead_Peach.17345b1513ac044897cfc243542899dce541e8dc.9afde10b.png" alt="Analyst" class="character-img">
                         <div class="card-info">
                             <div class="text-group">
-                                <h2>Đào Tuấn Kiệt</h2>
+                                <h2>Thành viên 2</h2>
                                 <p>
-                                    <strong>Better Time Management</strong><br>
-                                    - Use calendars/planners.<br>
-                                    - Make to-do lists.<br>
-                                    - Avoid distractions.<br>
-                                    - Break tasks into smaller steps.
+                                    <strong>📊 Phân Tích Dữ Liệu</strong><br>
+                                    ✓ Nhập & xử lý dữ liệu khảo sát<br>
+                                    ✓ Vẽ biểu đồ thống kê (Excel/Sheets)<br>
+                                    ✓ Phân tích kết quả & insights<br>
+                                    ✓ Chuẩn bị báo cáo chi tiết
                                 </p>
                             </div>
-                            <div class="rating"><i class="fa-solid fa-desktop"></i> Slide 11-12</div>
+                            <div class="rating"><i class="fa-solid fa-chart-bar"></i> Analyst</div>
                         </div>
                     </div>
                 </div>
 
+                <!-- Thành viên 3: Nghiên cứu -->
                 <div class="swiper-slide">
                     <div class="card">
                         <div class="ring"></div>
-                        <img src="https://play.nintendo.com/images/Masthead_Wario.17345b1513ac044897cfc243542899dce541e8dc.9afde10b.png" alt="Wario" class="character-img">
+                        <img src="https://play.nintendo.com/images/Masthead_Toad.17345b1513ac044897cfc243542899dce541e8dc.9afde10b.png" alt="Researcher" class="character-img">
                         <div class="card-info">
                             <div class="text-group">
-                                <h2>Huỳnh Nhật Tân</h2>
+                                <h2>Thành viên 3</h2>
                                 <p>
-                                    <strong>Conclusion & Q&A</strong><br>
-                                    - Summarize: Challenges, Priorities, Success.<br>
-                                    - Q&A Section:<br>
-                                    - "Do you have any questions?"
+                                    <strong>🔍 Tìm Kiếm Tài Liệu</strong><br>
+                                    ✓ Nghiên cứu ngành nghề hot hiện nay<br>
+                                    ✓ Tìm thông tin lương, kỹ năng, xu hướng<br>
+                                    ✓ Phỏng vấn 2-3 người trong ngành<br>
+                                    ✓ Compile tài liệu cho slide
                                 </p>
                             </div>
-                            <div class="rating"><i class="fa-solid fa-desktop"></i> Slide 13-14</div>
+                            <div class="rating"><i class="fa-solid fa-magnifying-glass"></i> Research</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Thành viên 4: Thiết kế chính -->
+                <div class="swiper-slide">
+                    <div class="card">
+                        <div class="ring"></div>
+                        <img src="https://play.nintendo.com/images/Masthead_Bowser.17345b1513ac044897cfc243542899dce541e8dc.9afde10b.png" alt="Designer" class="character-img">
+                        <div class="card-info">
+                            <div class="text-group">
+                                <h2>Thành viên 4</h2>
+                                <p>
+                                    <strong>🎨 Thiết Kế Slide & Poster</strong><br>
+                                    ✓ Thiết kế slide PowerPoint/Canva<br>
+                                    ✓ Sắp xếp layout, chọn font/màu<br>
+                                    ✓ Chèn hình ảnh, biểu đồ vào slide<br>
+                                    ✓ Tạo poster quảng bá
+                                </p>
+                            </div>
+                            <div class="rating"><i class="fa-solid fa-palette"></i> Designer</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Thành viên 5: Content & truyền thông -->
+                <div class="swiper-slide">
+                    <div class="card">
+                        <div class="ring"></div>
+                        <img src="https://play.nintendo.com/images/Masthead_yoshi.17345b1513ac044897cfc243542899dce541e8dc.9afde10b.png" alt="Content" class="character-img">
+                        <div class="card-info">
+                            <div class="text-group">
+                                <h2>Thành viên 5</h2>
+                                <p>
+                                    <strong>🎬 Content & Truyền Thông</strong><br>
+                                    ✓ Viết content Facebook/TikTok<br>
+                                    ✓ Tạo video quảng bá short 15-30s<br>
+                                    ✓ Thiết kế hình ảnh thumbnail<br>
+                                    ✓ Quản lý lịch đăng bài & tương tác
+                                </p>
+                            </div>
+                            <div class="rating"><i class="fa-solid fa-film"></i> Content</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Thành viên 6: Thuyết trình -->
+                <div class="swiper-slide">
+                    <div class="card">
+                        <div class="ring"></div>
+                        <img src="https://play.nintendo.com/images/Masthead_Wario.17345b1513ac044897cfc243542899dce541e8dc.9afde10b.png" alt="Presenter" class="character-img">
+                        <div class="card-info">
+                            <div class="text-group">
+                                <h2>Thành viên 6</h2>
+                                <p>
+                                    <strong>🎤 Người Thuyết Trình</strong><br>
+                                    ✓ Chuẩn bị kịch bản thuyết trình<br>
+                                    ✓ Tập nói & dẫn dắt câu chuyện<br>
+                                    ✓ Thuyết trình trước lớp (10-15 phút)<br>
+                                    ✓ Trả lời câu hỏi & tương tác
+                                </p>
+                            </div>
+                            <div class="rating"><i class="fa-solid fa-microphone"></i> Presenter</div>
                         </div>
                     </div>
                 </div>
@@ -472,11 +458,11 @@ setInterval(updateCountdown, 1000);
     </div>
 
     <div class="action-area">
-        <a href="https://canva.link/q45ki9cd2s8r8qp" target="_blank" class="btn-canva">
-            <i class="fa-solid fa-arrow-up-right-from-square"></i> OPEN PROJECT
+        <a href="#" class="btn-canva">
+            <i class="fa-solid fa-arrow-up-right-from-square"></i> VIEW DETAILS
         </a>
-        <a href="https://khdang207.github.io/Phan-Cong-Nhom/chitiet.html" class="btn-report">
-            <i class="fa-solid fa-list-check"></i> CHI TIẾT PHÂN CÔNG
+        <a href="#" class="btn-report">
+            <i class="fa-solid fa-list-check"></i> TIMELINE
         </a>
     </div>
 
