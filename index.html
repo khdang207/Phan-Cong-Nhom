@@ -77,7 +77,7 @@
             -webkit-backdrop-filter: blur(20px);
             border: 1px solid rgba(255, 255, 255, 0.12);
             border-radius: 30px;
-            height: 300px;
+            min-height: 420px;
             position: relative;
             display: flex;
             flex-direction: column;
@@ -116,7 +116,6 @@
             pointer-events: none;
             transition: transform 0.3s ease-out;
             
-            /* CSS Mờ chân */
             -webkit-mask-image: linear-gradient(to bottom, black 0%, black 20%, transparent 100%);
             mask-image: linear-gradient(to bottom, black 0%, black 50%, transparent 100%);
             -webkit-mask-size: cover;
@@ -140,13 +139,14 @@
             z-index: 2;
             display: flex;
             justify-content: space-between;
-            align-items: flex-end;
+            align-items: flex-start;
+            gap: 15px;
         }
         .text-group {
             display: flex;
             flex-direction: column;
-            gap: 15px;
-            padding-right: 10px;
+            gap: 12px;
+            flex: 1;
         }
 
         .text-group h2 {
@@ -156,11 +156,24 @@
             color: #ffd700;
         }
 
+        .role-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(255, 215, 0, 0.15);
+            color: #ffd700;
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 700;
+            width: fit-content;
+        }
+
         .text-group p {
-            font-size: 13px;
+            font-size: 12px;
             opacity: 0.85;
             font-weight: 500;
-            line-height: 1.6;
+            line-height: 1.5;
         }
         
         .text-group strong {
@@ -168,19 +181,42 @@
             font-weight: 800;
         }
 
+        .tasks-list {
+            font-size: 11px;
+            opacity: 0.8;
+            line-height: 1.6;
+        }
+
+        .tasks-list li {
+            margin-left: 15px;
+            list-style: none;
+            position: relative;
+        }
+
+        .tasks-list li::before {
+            content: "→";
+            position: absolute;
+            left: -12px;
+            color: #00ffff;
+            font-weight: bold;
+        }
+
         .rating { 
             background: rgba(255, 255, 255, 0.08); 
-            padding: 6px 12px; 
+            padding: 8px 12px; 
             border-radius: 12px; 
-            font-size: 13px; 
+            font-size: 11px; 
             font-weight: 800; 
             display: flex; 
-            align-items: center; 
-            gap: 5px; 
+            flex-direction: column;
+            align-items: center;
+            gap: 4px; 
             border: 1px solid rgba(255,255,255,0.1); 
             white-space: nowrap;
+            min-width: 50px;
+            text-align: center;
         }
-        .rating i { color: #00ffff; }
+        .rating i { color: #00ffff; font-size: 18px; }
 
         /* === BUTTON SECTION === */
         .action-area {
@@ -193,7 +229,6 @@
             width: 100%;
         }
 
-        /* Nút Canva */
         .btn-canva {
             background: linear-gradient(135deg, #00C4CC, #7D2AE8);
             color: #ffffff;
@@ -216,7 +251,6 @@
             background: linear-gradient(135deg, #00D2D9, #8E3BFA);
         }
 
-        /* Nút Chi tiết */
         .btn-report {
             background: #ffffff;
             color: #05000a; 
@@ -266,13 +300,13 @@
             .hero p { font-size: 13px; padding: 0 10px; }
 
             .slider-container { padding: 80px 15px 40px 15px; }
-            .card { height: 380px; padding: 20px; }
+            .card { min-height: 480px; padding: 20px; }
             
             .character-img { bottom: 240px; max-height: 190px; width: 75%; }
             .ring { bottom: 190px; width: 140px; height: 140px; }
 
             .text-group h2 { font-size: 18px; }
-            .text-group p { font-size: 12px; }
+            .text-group p { font-size: 11px; }
             
             .btn-canva, .btn-report {
                 font-size: 14px;
@@ -284,7 +318,7 @@
 
         @media (max-width: 400px) {
             .hero h1 { font-size: 32px; }
-            .card { height: 420px; }
+            .card { min-height: 520px; }
             .character-img { bottom: 260px; max-height: 170px; }
             .ring { bottom: 210px; width: 120px; height: 120px; }
             .search-box { width: 100%; order: -1; margin-bottom: 10px; }
@@ -316,7 +350,7 @@
 
     <main class="hero">
         <div class="tag">
-            <i class="fa-solid fa-clock highlight"></i>
+            <i class="fa-solid fa-rocket highlight"></i>
             <span class="highlight">PHÂN CÔNG NHÓM CAREER COMPASS</span>
         </div>
         <h1>Career Compass<br>Định Hướng Nghề Nghiệp</h1>
@@ -327,7 +361,7 @@
         <div class="swiper mySwiper">
             <div class="swiper-wrapper">
                 
-                <!-- Thành viên 1: Leader -->
+                <!-- Người 1: Khánh Đăng - Leader + Designer -->
                 <div class="swiper-slide">
                     <div class="card">
                         <div class="ring"></div>
@@ -335,118 +369,130 @@
                         <div class="card-info">
                             <div class="text-group">
                                 <h2>D. Huỳnh Khánh Đăng</h2>
-                                <p>
-                                    <strong>🎯 Leader & Coordinator</strong><br>
-                                    ✓ Điều phối toàn bộ dự án<br>
-                                    ✓ Thiết kế Google Form khảo sát<br>
-                                    ✓ Thu thập & phát phát dữ liệu<br>
-                                    ✓ Quản lý timeline & báo cáo tiến độ
-                                </p>
+                                <div class="role-badge"><i class="fa-solid fa-star"></i> Leader + Designer</div>
+                                <p><strong>Quản lý & Thiết kế</strong></p>
+                                <ul class="tasks-list">
+                                    <li>Chia công việc cho team</li>
+                                    <li>Theo dõi tiến độ hàng tuần</li>
+                                    <li>Tổng hợp nội dung từ các bộ phận</li>
+                                    <li>Thiết kế slide/poster trên Canva</li>
+                                    <li>Chỉnh sửa & hoàn thiện nội dung</li>
+                                </ul>
                             </div>
-                            <div class="rating"><i class="fa-solid fa-star"></i> Leader</div>
+                            <div class="rating"><i class="fa-solid fa-palette"></i> Leader</div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Thành viên 2: Phân tích dữ liệu -->
+                <!-- Người 2: Yến Nhi - Content Creator -->
                 <div class="swiper-slide">
                     <div class="card">
                         <div class="ring"></div>
-                        <img src="https://play.nintendo.com/images/Masthead_Peach.17345b1513ac044897cfc243542899dce541e8dc.9afde10b.png" alt="Analyst" class="character-img">
+                        <img src="https://play.nintendo.com/images/Masthead_Peach.17345b1513ac044897cfc243542899dce541e8dc.9afde10b.png" alt="Content" class="character-img">
                         <div class="card-info">
                             <div class="text-group">
-                                <h2>Thành viên 2</h2>
-                                <p>
-                                    <strong>📊 Phân Tích Dữ Liệu</strong><br>
-                                    ✓ Nhập & xử lý dữ liệu khảo sát<br>
-                                    ✓ Vẽ biểu đồ thống kê (Excel/Sheets)<br>
-                                    ✓ Phân tích kết quả & insights<br>
-                                    ✓ Chuẩn bị báo cáo chi tiết
-                                </p>
+                                <h2>Lê Ngọc Yến Nhi</h2>
+                                <div class="role-badge"><i class="fa-solid fa-lightbulb"></i> Content Creator</div>
+                                <p><strong>Giải pháp & Nội dung</strong></p>
+                                <ul class="tasks-list">
+                                    <li>Viết phần giải pháp dự án</li>
+                                    <li>Đề xuất ý tưởng sáng tạo</li>
+                                    <li>Tổng kết tác động & thành tích</li>
+                                    <li>Hỗ trợ viết nội dung slide</li>
+                                    <li>Brainstorm & góp ý chiến lược</li>
+                                </ul>
                             </div>
-                            <div class="rating"><i class="fa-solid fa-chart-bar"></i> Analyst</div>
+                            <div class="rating"><i class="fa-solid fa-pen"></i> Content</div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Thành viên 3: Nghiên cứu -->
+                <!-- Người 3: Anh Minh - Data Analyst -->
                 <div class="swiper-slide">
                     <div class="card">
                         <div class="ring"></div>
-                        <img src="https://play.nintendo.com/images/Masthead_Toad.17345b1513ac044897cfc243542899dce541e8dc.9afde10b.png" alt="Researcher" class="character-img">
+                        <img src="https://play.nintendo.com/images/Masthead_Toad.17345b1513ac044897cfc243542899dce541e8dc.9afde10b.png" alt="Analyst" class="character-img">
                         <div class="card-info">
                             <div class="text-group">
-                                <h2>Thành viên 3</h2>
-                                <p>
-                                    <strong>🔍 Tìm Kiếm Tài Liệu</strong><br>
-                                    ✓ Nghiên cứu ngành nghề hot hiện nay<br>
-                                    ✓ Tìm thông tin lương, kỹ năng, xu hướng<br>
-                                    ✓ Phỏng vấn 2-3 người trong ngành<br>
-                                    ✓ Compile tài liệu cho slide
-                                </p>
+                                <h2>Lê Nguyễn Anh Minh</h2>
+                                <div class="role-badge"><i class="fa-solid fa-chart-bar"></i> Data Analyst</div>
+                                <p><strong>Thống kê kết quả</strong></p>
+                                <ul class="tasks-list">
+                                    <li>Nhập dữ liệu vào Excel/Sheets</li>
+                                    <li>Làm biểu đồ thống kê đẹp</li>
+                                    <li>Phân tích nguyên nhân vấn đề</li>
+                                    <li>Đánh giá ảnh hưởng của dự án</li>
+                                    <li>Viết báo cáo chi tiết kết quả</li>
+                                </ul>
+                            </div>
+                            <div class="rating"><i class="fa-solid fa-chart-pie"></i> Analytics</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Người 4: Tấn Vinh - Survey Manager -->
+                <div class="swiper-slide">
+                    <div class="card">
+                        <div class="ring"></div>
+                        <img src="https://play.nintendo.com/images/Masthead_Bowser.17345b1513ac044897cfc243542899dce541e8dc.9afde10b.png" alt="Survey" class="character-img">
+                        <div class="card-info">
+                            <div class="text-group">
+                                <h2>Khưu Tấn Vinh</h2>
+                                <div class="role-badge"><i class="fa-solid fa-clipboard"></i> Survey Manager</div>
+                                <p><strong>Tạo khảo sát</strong></p>
+                                <ul class="tasks-list">
+                                    <li>Thiết kế Google Form khảo sát</li>
+                                    <li>Lên kế hoạch câu hỏi chiến lược</li>
+                                    <li>Gửi khảo sát cho sinh viên</li>
+                                    <li>Nhắc nhở & follow-up thu thập</li>
+                                    <li>Kiểm tra dữ liệu thu được</li>
+                                </ul>
+                            </div>
+                            <div class="rating"><i class="fa-solid fa-survey"></i> Survey</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Người 5: Tuấn Kiệt - Researcher -->
+                <div class="swiper-slide">
+                    <div class="card">
+                        <div class="ring"></div>
+                        <img src="https://play.nintendo.com/images/Masthead_yoshi.17345b1513ac044897cfc243542899dce541e8dc.9afde10b.png" alt="Research" class="character-img">
+                        <div class="card-info">
+                            <div class="text-group">
+                                <h2>Đào Tuấn Kiệt</h2>
+                                <div class="role-badge"><i class="fa-solid fa-book"></i> Researcher</div>
+                                <p><strong>Tìm thông tin</strong></p>
+                                <ul class="tasks-list">
+                                    <li>Tìm tài liệu về hướng nghiệp</li>
+                                    <li>Nghiên cứu AI trong tuyển dụng</li>
+                                    <li>Tìm workshop & khóa học liên quan</li>
+                                    <li>Sưu tập bài test nghề nghiệp</li>
+                                    <li>Compile tài liệu cho team</li>
+                                </ul>
                             </div>
                             <div class="rating"><i class="fa-solid fa-magnifying-glass"></i> Research</div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Thành viên 4: Thiết kế chính -->
-                <div class="swiper-slide">
-                    <div class="card">
-                        <div class="ring"></div>
-                        <img src="https://play.nintendo.com/images/Masthead_Bowser.17345b1513ac044897cfc243542899dce541e8dc.9afde10b.png" alt="Designer" class="character-img">
-                        <div class="card-info">
-                            <div class="text-group">
-                                <h2>Thành viên 4</h2>
-                                <p>
-                                    <strong>🎨 Thiết Kế Slide & Poster</strong><br>
-                                    ✓ Thiết kế slide PowerPoint/Canva<br>
-                                    ✓ Sắp xếp layout, chọn font/màu<br>
-                                    ✓ Chèn hình ảnh, biểu đồ vào slide<br>
-                                    ✓ Tạo poster quảng bá
-                                </p>
-                            </div>
-                            <div class="rating"><i class="fa-solid fa-palette"></i> Designer</div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Thành viên 5: Content & truyền thông -->
-                <div class="swiper-slide">
-                    <div class="card">
-                        <div class="ring"></div>
-                        <img src="https://play.nintendo.com/images/Masthead_yoshi.17345b1513ac044897cfc243542899dce541e8dc.9afde10b.png" alt="Content" class="character-img">
-                        <div class="card-info">
-                            <div class="text-group">
-                                <h2>Thành viên 5</h2>
-                                <p>
-                                    <strong>🎬 Content & Truyền Thông</strong><br>
-                                    ✓ Viết content Facebook/TikTok<br>
-                                    ✓ Tạo video quảng bá short 15-30s<br>
-                                    ✓ Thiết kế hình ảnh thumbnail<br>
-                                    ✓ Quản lý lịch đăng bài & tương tác
-                                </p>
-                            </div>
-                            <div class="rating"><i class="fa-solid fa-film"></i> Content</div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Thành viên 6: Thuyết trình -->
+                <!-- Người 6: Nhật Tân - Presenter & Media -->
                 <div class="swiper-slide">
                     <div class="card">
                         <div class="ring"></div>
                         <img src="https://play.nintendo.com/images/Masthead_Wario.17345b1513ac044897cfc243542899dce541e8dc.9afde10b.png" alt="Presenter" class="character-img">
                         <div class="card-info">
                             <div class="text-group">
-                                <h2>Thành viên 6</h2>
-                                <p>
-                                    <strong>🎤 Người Thuyết Trình</strong><br>
-                                    ✓ Chuẩn bị kịch bản thuyết trình<br>
-                                    ✓ Tập nói & dẫn dắt câu chuyện<br>
-                                    ✓ Thuyết trình trước lớp (10-15 phút)<br>
-                                    ✓ Trả lời câu hỏi & tương tác
-                                </p>
+                                <h2>Huỳnh Nhật Tân</h2>
+                                <div class="role-badge"><i class="fa-solid fa-microphone"></i> Presenter & Media</div>
+                                <p><strong>Present & Truyền thông</strong></p>
+                                <ul class="tasks-list">
+                                    <li>Chuẩn bị lời nói thuyết trình</li>
+                                    <li>Tập thuyết trình trước team</li>
+                                    <li>Present dự án trước lớp</li>
+                                    <li>Đăng bài TikTok/Facebook quảng bá</li>
+                                    <li>Trả lời Q&A & tương tác audience</li>
+                                </ul>
                             </div>
                             <div class="rating"><i class="fa-solid fa-microphone"></i> Presenter</div>
                         </div>
@@ -459,10 +505,10 @@
 
     <div class="action-area">
         <a href="#" class="btn-canva">
-            <i class="fa-solid fa-arrow-up-right-from-square"></i> VIEW DETAILS
+            <i class="fa-solid fa-arrow-up-right-from-square"></i> VIEW TIMELINE
         </a>
         <a href="#" class="btn-report">
-            <i class="fa-solid fa-list-check"></i> TIMELINE
+            <i class="fa-solid fa-list-check"></i> DETAILED TASKS
         </a>
     </div>
 
@@ -476,7 +522,7 @@
             grabCursor: true,        
             
             autoplay: {
-                delay: 3000,                  
+                delay: 4000,                  
                 disableOnInteraction: false,  
             },
             
